@@ -1,0 +1,54 @@
+version: '3.0'
+services:
+  suplementos:
+    build: ./dockerfiles/python
+    image: suplementos
+    container_name: container-suplementos
+    hostname: suplementos
+    restart: always
+    volumes:
+      - './suplementos:/servico'
+    command: python3 /servico/suplementos.py
+    ports:
+      - '5001:5000'
+  comentarios:
+    build: ./dockerfiles/python
+    image: comentarios
+    container_name: container-comentarios
+    hostname: comentarios
+    restart: always
+    volumes:
+      - './comentarios:/servico'
+    command: python3 /servico/comentarios.py
+    ports:
+      - '5002:5000'
+  likes:
+    build: ./dockerfiles/python
+    image: likes
+    container_name: container-likes
+    hostname: likes
+    restart: always
+    volumes:
+      - './likes:/servico'
+    command: python3 /servico/likes.py
+    ports:
+      - '5003:5000'
+  banco:
+    image: mysql
+    container_name: container-banco
+    hostname: banco
+    restart: always
+    ports:
+      - '5004:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+  arquivos:
+    image: arquivos
+    build: ./dockerfiles/nginx
+    container_name: container-arquivos
+    hostname: arquivos
+    restart: always
+    volumes:
+      - './imagens:/usr/share/nginx/html'
+    ports:
+      - '5005:80'
